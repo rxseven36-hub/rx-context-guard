@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "verify:guard": "node scripts/verify-guard.mjs",
     "verify:permission": "node scripts/verify-permission-gate.mjs",
-    "verify:persistence": "node scripts/verify-persistence.mjs"
+    "verify:persistence": "node scripts/verify-persistence.mjs",
+    "verify:demo": "node scripts/verify-demo-ready.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",

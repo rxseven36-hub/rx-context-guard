@@ -1,58 +1,51 @@
 import type { GuardDecision, IntendedAction } from "./types";
 
-const normalize = (value: string) =>
-  value.toLowerCase().replace(/[^\p{L}\p{N}._/-]+/gu, " ").replace(/\s+/g, " ").trim();
+const words = (value: string) =>
+  value.toLowerCase().match(/[a-z0-9]+/g)?.filter((word) => word.length >= 4) ?? [];
 
-const significantTokens = (value: string) =>
-  normalize(value)
-    .split(" ")
-    .filter((token) => token.length >= 4);
-
-function ruleMatchesAction(rule: string, action: IntendedAction): boolean {
-  const tokens = significantTokens(rule);
-  if (tokens.length === 0) return false;
-
-  const actionText = normalize(
-    `${action.actionKind} ${action.target} ${action.description}`
-  );
-
-  // Deterministic POC rule: a boundary matches only when at least two
-  // meaningful rule tokens occur in the structured intended action.
-  // This avoids pretending that the simulator or an AI model made the decision.
-  const hits = tokens.filter((token) => actionText.includes(token));
-  return hits.length >= Math.min(2, tokens.length);
+function ruleMatchesAction(rule: string, action: IntendedAction) {
+  const tokens = words(rule);
+  if (!tokens.length) return false;
+  const haystack = `${action.actionKind} ${action.target} ${action.description}`.toLowerCase();
+  const matches = tokens.filter((token) => haystack.includes(token)).length;
+  return matches >= Math.min(2, tokens.length);
 }
 
 export function evaluateAction(
-  action: IntendedAction | null | undefined,
+  action: IntendedAction,
+  doRules: string[],
   dontRules: string[]
 ): GuardDecision {
   if (
-    !action ||
-    !action.id ||
-    !action.processId ||
-    !action.actionKind ||
-    !action.target ||
-    !action.description
+    !action.id?.trim() ||
+    !action.processId?.trim() ||
+    !action.actionKind?.trim() ||
+    !action.target?.trim() ||
+    !action.description?.trim()
   ) {
+    return { status: "BLOCK", reason: "Action context is incomplete or uncertain. Guard fails closed." };
+  }
+
+  const denied = dontRules.find((rule) => ruleMatchesAction(rule, action));
+  if (denied) {
     return {
       status: "BLOCK",
-      reason: "Guard decision is uncertain because the intended action is incomplete. Fail closed.",
+      reason: "Proposed action crosses a protected project boundary.",
+      matchedRule: denied,
     };
   }
 
-  for (const rule of dontRules) {
-    if (rule.trim() && ruleMatchesAction(rule, action)) {
-      return {
-        status: "BLOCK",
-        reason: "Proposed action crosses a protected project boundary.",
-        matchedRule: rule.trim(),
-      };
-    }
+  const allowed = doRules.find((rule) => ruleMatchesAction(rule, action));
+  if (!allowed) {
+    return {
+      status: "BLOCK",
+      reason: "Proposed action is outside the explicit allowed boundary. Guard fails closed.",
+    };
   }
 
   return {
     status: "ALLOW",
-    reason: "No protected boundary matched this intended action.",
+    reason: "Proposed action matches the explicit allowed project boundary.",
+    matchedRule: allowed,
   };
 }

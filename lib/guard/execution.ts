@@ -11,6 +11,7 @@ export type GuardedExecution = {
 
 export function executeWithGuard(
   action: IntendedAction,
+  doRules: string[],
   dontRules: string[],
   workingState: string,
   permissions: PermissionState
@@ -32,7 +33,7 @@ export function executeWithGuard(
     };
   }
 
-  const decision = evaluateAction(action, dontRules);
+  const decision = evaluateAction(action, doRules, dontRules);
   return {
     decision,
     applied: decision.status === "ALLOW",

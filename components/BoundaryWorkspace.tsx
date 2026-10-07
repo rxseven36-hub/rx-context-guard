@@ -42,7 +42,7 @@ function Proposal({ action }: { action: IntendedAction }) {
 export default function BoundaryWorkspace() {
   const [projectName, setProjectName] = useState("RX Context Guard");
   const [agentName, setAgentName] = useState("AI Agent / Simulator");
-  const [doRules, setDoRules] = useState("Work only inside the agreed task.\nShow the intended change before execution.\nWait for explicit permission when blocked.");
+  const [doRules, setDoRules] = useState("Edit requested README documentation wording only.\nWork only inside the agreed task.\nShow the intended change before execution.\nWait for explicit permission when blocked.");
   const [dontRules, setDontRules] = useState("Do not change already-good parts without instruction.\nDo not perform unrequested work.\nDo not continue after the Guard blocks an action.");
   const [selectedId, setSelectedId] = useState(simulatedActions[1].id);
   const [decisionText, setDecisionText] = useState("No action evaluated yet.");
@@ -80,10 +80,11 @@ export default function BoundaryWorkspace() {
   };
 
   const action = useMemo(() => simulatedActions.find((item) => item.id === selectedId) ?? simulatedActions[0], [selectedId]);
-  const rules = () => dontRules.split("\n").map((rule) => rule.trim()).filter(Boolean);
+  const allowedRules = () => doRules.split("\n").map((rule) => rule.trim()).filter(Boolean);
+  const protectedRules = () => dontRules.split("\n").map((rule) => rule.trim()).filter(Boolean);
 
   const runGuard = (candidate = action, permissionState = permissions) => {
-    const result = executeWithGuard(candidate, rules(), workingState, permissionState);
+    const result = executeWithGuard(candidate, allowedRules(), protectedRules(), workingState, permissionState);
     setPermissions(result.nextPermissions);
     setDecisionStatus(result.decision.status);
     setDecisionText(result.decision.matchedRule ? `${result.decision.reason} Matched: "${result.decision.matchedRule}"` : result.decision.reason);
@@ -190,7 +191,7 @@ export default function BoundaryWorkspace() {
         <div className="permission-state"><span>ACTIVE PROCESS PERMISSIONS</span><strong>{permissions.processScopes.length}</strong><span> · ONE-TIME TOKENS </span><strong>{permissions.oneTimeActionIds.length}</strong></div>
         {lastEvidence && <div className="evidence-state"><span>REJECTION EVIDENCE</span><code>{lastEvidence}</code><strong>performed = false</strong></div>}
       </section>
-      <footer><span>BOUNDARY OWNER: BUILDER</span><span>SLICE 04 · PERSISTENCE + EVIDENCE</span></footer>
+      <footer><span>BOUNDARY OWNER: BUILDER</span><span>SLICE 05 · DEMO READY</span></footer>
     </main>
   );
 }

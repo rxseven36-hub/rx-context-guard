@@ -49,7 +49,7 @@ Build mode: fast
   Learner check: Change a boundary rule, restart RX Context Guard, confirm it remains, then reject an action and read the written evidence shown by the app.
   Commit: `Persist boundaries and record rejection evidence`
 
-- [ ] **5. The complete guard journey is demo-ready**
+- [x] **5. The complete guard journey is demo-ready**
   Becomes usable: The full POC can be demonstrated coherently from project context through proposed code change, Guard decision, pause, permission, and final result/report.
   Why now: All core behaviors already work independently; this slice integrates and polishes them without introducing a new product feature.
   PRD ref: `prd.md > The Core Journey`, `prd.md > What We're Building`

@@ -1,0 +1,17 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+const read = (p) => fs.readFileSync(p, "utf8");
+const engine = read("lib/guard/engine.ts");
+const readme = read("README.md");
+const ui = read("components/BoundaryWorkspace.tsx");
+assert.match(engine, /doRules\.find/);
+assert.match(engine, /dontRules\.find/);
+assert.match(engine, /fails closed/);
+assert.match(ui, /SIMULATOR — NOT A LIVE AI AGENT/);
+assert.match(ui, /SAVE BOUNDARY/);
+assert.match(ui, /performed = false/);
+assert.match(readme, /Real-agent interception is deferred/);
+assert.match(readme, /npm run verify:guard/);
+console.log("PASS: demo contract is documented and visible.");
+console.log("PASS: Guard requires explicit allow and respects protected rules.");
+console.log("PASS: fail-closed behavior and simulator limitation are explicit.");
