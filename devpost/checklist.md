@@ -3,7 +3,7 @@ doc: checklist
 status: approved
 ---
 
-# RX Context Guard — Build Checklist
+# RX Context Guard â€” Build Checklist
 
 Build mode: fast
 
@@ -61,24 +61,23 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after Slice 3, builder tests the real block and all three permission decisions
-- [ ] Final kick-the-tires exploration and feedback completed — after Slice 5
+- [ ] Early usable behavior explored â€” after Slice 3, builder tests the real block and all three permission decisions
+- [ ] Final kick-the-tires exploration and feedback completed â€” after Slice 5
 
 ## Final Review
 
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [ ] Final review complete â€” feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — focused walkthrough of one proposed action from simulator through Guard, pause gate, and permission result
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [ ] Learning activity complete â€” focused walkthrough of one proposed action from simulator through Guard, pause gate, and permission result
+- [ ] Optional edit and transfer reflection addressed â€” offered/declined/already covered/not applicable as appropriate
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: [complete after final revisions]
-Route and stops: [complete after final revisions]
-Edit outcome: [complete after final revisions]
-Reflection: [complete after final revisions]
-Activity mode: [complete after final revisions]
+Activity and evidence: Focused evidence-based walkthrough of the simulator -> Guard Engine -> execution/pause -> builder permission path, grounded in finished code and passing Guard/permission verification.
+Route and stops: `lib/simulator/actions.ts` (`simulatedActions`) -> `lib/guard/engine.ts` (`evaluateAction`) -> `lib/guard/execution.ts` / `lib/guard/permissions.ts` with UI wiring in `components/BoundaryWorkspace.tsx`.
+Edit outcome: No optional code edit retained; the finished kernel remained frozen after submission-facing UI polish.
+Reflection: Transfer question answered; final authority remains with the builder/operator when the concept is connected to a real AI agent.
+Activity mode: Evidence-based recap of work already completed during build, followed by a finished-code reference map.
 
 ## Revisions
-

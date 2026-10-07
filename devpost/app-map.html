@@ -1,0 +1,96 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RX Context Guard — App Map</title>
+<style>
+:root { color-scheme: dark; font-family: Arial, sans-serif; }
+body { margin:0; background:#08111f; color:#e8eef7; }
+main { max-width:980px; margin:auto; padding:32px 22px 48px; }
+h1,h2 { color:#fff; }
+h1 { margin-bottom:6px; }
+h2 { margin-top:32px; border-bottom:1px solid #26364d; padding-bottom:8px; }
+p,li { line-height:1.55; color:#c7d2e2; }
+code { color:#d8e7ff; background:#101d30; padding:2px 5px; border-radius:4px; }
+.card { background:#0d1929; border:1px solid #243650; border-radius:10px; padding:18px; margin:12px 0; }
+.flow { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:18px 0; }
+.node { border:1px solid #36557e; background:#10213a; padding:10px 12px; border-radius:8px; }
+.arrow { color:#91a8c7; }
+small { color:#91a0b5; }
+</style>
+</head>
+<body>
+<main>
+<h1>RX Context Guard — App Map</h1>
+<p>A compact technical map of the finished proof of concept. RX Context Guard places a deterministic pre-execution boundary between a simulated AI action and project changes. The builder remains the boundary owner and final authority.</p>
+
+<h2>Main pieces</h2>
+<div class="card">
+<ul>
+<li><strong>AI Action Simulator</strong> — supplies clearly labeled intended demo actions.</li>
+<li><strong>Context Guard Engine</strong> — checks protected rules first, requires an explicit allowed boundary, and fails closed when context is incomplete or outside the boundary.</li>
+<li><strong>Execution / Permission Gate</strong> — keeps blocked work unapplied until builder-controlled permission allows the scoped action.</li>
+<li><strong>Workspace UI</strong> — exposes boundaries, proposed changes, Guard decisions, permission controls, working state, and rejection evidence.</li>
+<li><strong>Local persistence</strong> — stores project context and boundary rules locally; rejected actions can leave written evidence with <code>performed = false</code>.</li>
+</ul>
+</div>
+
+<h2>One real action through the app</h2>
+<div class="flow" aria-label="Action flow">
+<div class="node">Simulator action</div><span class="arrow">→</span>
+<div class="node">BoundaryWorkspace.runGuard()</div><span class="arrow">→</span>
+<div class="node">executeWithGuard()</div><span class="arrow">→</span>
+<div class="node">evaluateAction()</div><span class="arrow">→</span>
+<div class="node">ALLOW or BLOCK</div><span class="arrow">→</span>
+<div class="node">Builder permission / result</div>
+</div>
+<p>The prohibited demo action targets <code>components/BoundaryWorkspace.tsx</code>. It is proposed by the simulator, evaluated by deterministic Guard logic, and remains unapplied when blocked. A builder can reject it or grant a scoped permission.</p>
+
+<h2>Reference route — 3 stops</h2>
+
+<div class="card">
+<strong>1 — Action source</strong>
+<p><code>lib/simulator/actions.ts</code><br>
+Search anchor: <code>simulatedActions</code></p>
+<p>This defines the safe README example and the prohibited already-good-code example. It proposes actions; it does not decide whether they are allowed.</p>
+</div>
+
+<div class="card">
+<strong>2 — Guard decision</strong>
+<p><code>lib/guard/engine.ts</code><br>
+Search anchor: <code>evaluateAction</code></p>
+<p>This is the deterministic boundary decision. Incomplete context blocks, protected-rule matches block, and actions outside the explicit allowed boundary block. Only an explicit allowed match returns ALLOW.</p>
+</div>
+
+<div class="card">
+<strong>3 — Execution and human authority</strong>
+<p><code>lib/guard/execution.ts</code> — search <code>executeWithGuard</code><br>
+<code>lib/guard/permissions.ts</code> — search <code>hasPermission</code>, <code>grantOnce</code>, or <code>grantForProcess</code><br>
+<code>components/BoundaryWorkspace.tsx</code> — search <code>runGuard</code></p>
+<p>Execution stays tied to the Guard result and builder-controlled permission. One-time permission is consumable; process permission is scoped by process, action kind, and target.</p>
+</div>
+
+<h2>To change this, start here</h2>
+<ul>
+<li>Change demo actions: <code>lib/simulator/actions.ts</code>.</li>
+<li>Change deterministic boundary matching or fail-closed behavior: <code>lib/guard/engine.ts</code>.</li>
+<li>Change permission scope semantics: <code>lib/guard/permissions.ts</code>.</li>
+<li>Change how Guard results become simulated execution state: <code>lib/guard/execution.ts</code>.</li>
+<li>Change workspace labels or interaction wiring: <code>components/BoundaryWorkspace.tsx</code>.</li>
+</ul>
+
+<h2>A practice to reuse</h2>
+<div class="card">
+<p><strong>Decision → evidence → reusable practice:</strong> the project requires proposed actions to pass a deterministic boundary before execution. The Guard verification checks confirmed that protected, outside-boundary, and uncertain actions fail closed, while permission verification confirmed that exceptions remain builder-scoped. On another agent project, define the execution boundary first, verify the blocked path, and keep final override authority with the human operator instead of letting the proposing agent authorize itself.</p>
+</div>
+
+<h2>Run again</h2>
+<pre><code>npm install
+npm run dev</code></pre>
+<p>Useful verification commands: <code>npm run verify:guard</code>, <code>npm run verify:permission</code>, <code>npm run verify:persistence</code>, <code>npm run verify:demo</code>, <code>npm run typecheck</code>, and <code>npm run lint</code>.</p>
+
+<p><small>Source snapshot: commit da1b14e — “Polish English submission viewport”. This map is a snapshot of the finished code at learning-wrap-up time and may drift if the project changes later.</small></p>
+</main>
+</body>
+</html>
