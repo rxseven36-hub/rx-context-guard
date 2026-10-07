@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "verify:guard": "node scripts/verify-guard.mjs"
+    "verify:guard": "node scripts/verify-guard.mjs",
+    "verify:permission": "node scripts/verify-permission-gate.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",

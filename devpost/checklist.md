@@ -29,7 +29,7 @@ Build mode: fast
   Learner check: Trigger the prohibited demo action and confirm the highlighted proposed change stops on screen before it is applied.
   Commit: `Add pre-execution context guard kernel`
 
-- [ ] **3. The builder controls what happens after a block**
+- [x] **3. The builder controls what happens after a block**
   Becomes usable: A blocked action remains paused until the builder chooses TOLAK, IZINKAN SEKALI, or IZINKAN SELAMA PROSES, with each permission scope enforced.
   Why now: Blocking alone is incomplete; this turns the Guard into the builder-controlled PAGER behavior defined in the product.
   PRD ref: `prd.md > Permission Decision`, `prd.md > The Core Journey`

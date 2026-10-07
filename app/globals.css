@@ -143,3 +143,26 @@ footer {
   .lab-heading, .proposal-meta { flex-direction: column; }
   .decision { grid-template-columns: 1fr; }
 }
+.permission-gate {
+  margin-top: 14px; padding: 18px; border: 1px solid rgba(255,155,155,.55);
+  border-radius: 10px; background: rgba(73,22,31,.22);
+  display: flex; justify-content: space-between; gap: 20px; align-items: center;
+}
+.permission-gate h3 { margin: 6px 0; }
+.permission-gate p { margin: 0; color: var(--muted); }
+.permission-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.permission-actions button {
+  border: 1px solid #4f82bb; border-radius: 8px; padding: 10px 12px;
+  background: #10243b; color: var(--text); cursor: pointer; font-weight: 750;
+}
+.permission-actions .reject { border-color: rgba(255,155,155,.7); }
+.decision.rejected { border-color: rgba(255,155,155,.45); }
+.decision.rejected strong { color: var(--deny); }
+.permission-state {
+  margin-top: 10px; color: var(--muted); font-size: 10px; letter-spacing: .08em;
+}
+.permission-state strong { color: var(--text); }
+@media (max-width: 760px) {
+  .permission-gate { flex-direction: column; align-items: stretch; }
+  .permission-actions { justify-content: flex-start; }
+}
