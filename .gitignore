@@ -1,0 +1,17 @@
+
+# Devpost Learn personal learner context
+/devpost/learner-profile.md
+
+# Local environment credentials
+.env
+.env.*
+!.env.example
+
+# Next.js / Node generated files
+/node_modules/
+/.next/
+/out/
+*.tsbuildinfo
+
+# RX Context Guard local execution reports
+/RX_CONTEXT_GUARD_*_REPORT.txt
