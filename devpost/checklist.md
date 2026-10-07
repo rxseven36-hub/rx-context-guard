@@ -1,4 +1,4 @@
-﻿---
+---
 doc: checklist
 status: approved
 ---
@@ -9,7 +9,7 @@ Build mode: fast
 
 ## Slices
 
-- [ ] **1. Project boundary can be created, seen, and edited**
+- [x] **1. Project boundary can be created, seen, and edited**
   Becomes usable: RX Context Guard runs locally and shows the project name, AI agent/model name, DILAKUKEUN rules, and ULAH DILAKUKEUN rules in the agreed serious dark-blue interface.
   Why now: This delivers the first usable end-to-end surface while including project bootstrap inside the slice instead of treating setup as separate work.
   PRD ref: `prd.md > The Core Journey`, `prd.md > Boundary Rules`
@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Open RX Context Guard and confirm the project identity, DILAKUKEUN, and ULAH DILAKUKEUN areas look and behave like the protective workspace you intended.
   Commit: `Build initial RX Context Guard boundary workspace`
 
-- [ ] **2. A prohibited proposed change is stopped before execution**
+- [x] **2. A prohibited proposed change is stopped before execution**
   Becomes usable: A clearly labeled simulated AI action can propose a code/syntax change; RX Context Guard evaluates it with real deterministic logic and stops a prohibited action before simulated working state changes.
   Why now: This is the Unique Kernel. Proving the pre-execution block early is more important than adding surrounding features first.
   PRD ref: `prd.md > The Core Journey`, `prd.md > Guard Decision`

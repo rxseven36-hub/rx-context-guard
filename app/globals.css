@@ -104,3 +104,42 @@ footer {
   .hero { padding-top: 48px; }
   .topbar { min-height: 64px; }
 }
+
+.guard-lab {
+  margin-top: 18px; padding: 24px; border: 1px solid var(--line); border-radius: 14px;
+  background: rgba(8, 20, 35, .92);
+}
+.lab-heading { display: flex; justify-content: space-between; gap: 18px; align-items: start; }
+.lab-heading h2 { margin: 8px 0 18px; font-size: 28px; }
+.sim-label {
+  border: 1px solid #395778; border-radius: 999px; padding: 8px 10px;
+  color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .12em;
+}
+.action-picker { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.action-picker button, .guard-button {
+  border: 1px solid #345273; border-radius: 8px; padding: 11px 14px;
+  background: #0b1a2c; color: var(--text); cursor: pointer;
+}
+.action-picker button.active { border-color: var(--accent); background: #112c4c; }
+.proposal { border: 1px solid var(--line); border-radius: 10px; padding: 16px; background: #06101d; }
+.proposal-meta { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; }
+.proposal pre { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.65; }
+.removed { color: #ffaaaa; }
+.added { color: #91e5bd; }
+.guard-button { margin: 16px 0; border-color: #4f82bb; font-weight: 800; letter-spacing: .05em; }
+.decision {
+  display: grid; grid-template-columns: 100px 1fr; gap: 12px; align-items: start;
+  padding: 16px; border: 1px solid var(--line); border-radius: 10px;
+}
+.decision strong { letter-spacing: .1em; }
+.decision.allow { border-color: rgba(120,214,176,.65); }
+.decision.allow strong { color: var(--allow); }
+.decision.block { border-color: rgba(255,155,155,.65); }
+.decision.block strong { color: var(--deny); }
+.working-state { margin-top: 12px; padding: 14px 16px; border-left: 3px solid #456b94; background: #091728; }
+.working-state span { color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .14em; }
+.working-state p { margin-bottom: 0; }
+@media (max-width: 760px) {
+  .lab-heading, .proposal-meta { flex-direction: column; }
+  .decision { grid-template-columns: 1fr; }
+}
