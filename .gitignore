@@ -15,3 +15,6 @@
 
 # RX Context Guard local execution reports
 /RX_CONTEXT_GUARD_*_REPORT.txt
+
+# Runtime rejection evidence
+/data/rejections/

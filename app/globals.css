@@ -166,3 +166,20 @@ footer {
   .permission-gate { flex-direction: column; align-items: stretch; }
   .permission-actions { justify-content: flex-start; }
 }
+.storage-bar {
+  margin-top: 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px;
+  display: flex; justify-content: space-between; gap: 16px; align-items: center; background: #091728;
+}
+.storage-bar p { margin: 5px 0 0; color: var(--muted); }
+.storage-bar button {
+  border: 1px solid #4f82bb; border-radius: 8px; padding: 10px 14px;
+  background: #10243b; color: var(--text); cursor: pointer; font-weight: 750;
+}
+.evidence-state {
+  margin-top: 12px; padding: 12px 14px; border: 1px solid rgba(255,155,155,.4);
+  border-radius: 8px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+}
+.evidence-state span { color: var(--muted); font-size: 9px; letter-spacing: .12em; font-weight: 800; }
+.evidence-state code { color: var(--text); }
+.evidence-state strong { color: var(--deny); }
+@media (max-width: 760px) { .storage-bar { flex-direction: column; align-items: stretch; } }

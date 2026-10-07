@@ -39,7 +39,7 @@ Build mode: fast
   Learner check: At the early hands-on checkpoint, try all three decisions and confirm that work waits for you and never assumes permission.
   Commit: `Add builder permission gate`
 
-- [ ] **4. Boundaries survive restart and rejection leaves evidence**
+- [x] **4. Boundaries survive restart and rejection leaves evidence**
   Becomes usable: Project identity and boundary rules survive closing/restarting the app, and TOLAK produces a written report confirming the rejected action was not performed.
   Why now: With the kernel and permission semantics proven, persistence and written evidence can now attach to stable behavior rather than speculative plumbing.
   PRD ref: `prd.md > Boundary Rules`, `prd.md > Rejection Report`

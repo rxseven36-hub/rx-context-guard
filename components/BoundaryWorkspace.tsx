@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { executeWithGuard } from "@/lib/guard/execution";
 import {
   emptyPermissionState,
@@ -50,6 +50,34 @@ export default function BoundaryWorkspace() {
   const [workingState, setWorkingState] = useState("Original project state — no simulated change applied.");
   const [permissions, setPermissions] = useState<PermissionState>(emptyPermissionState());
   const [blockedAction, setBlockedAction] = useState<IntendedAction | null>(null);
+  const [storageStatus, setStorageStatus] = useState("Loading saved boundary...");
+  const [lastEvidence, setLastEvidence] = useState<string | null>(null);
+
+  useEffect(() => {
+    void fetch("/api/context", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok) throw new Error("Could not load saved boundary.");
+        return response.json();
+      })
+      .then((saved) => {
+        setProjectName(saved.projectName);
+        setAgentName(saved.agentName);
+        setDoRules(saved.doRules);
+        setDontRules(saved.dontRules);
+        setStorageStatus("Saved boundary loaded from local JSON.");
+      })
+      .catch(() => setStorageStatus("Local boundary could not be loaded."));
+  }, []);
+
+  const saveBoundary = async () => {
+    setStorageStatus("Saving...");
+    const response = await fetch("/api/context", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ projectName, agentName, doRules, dontRules }),
+    });
+    setStorageStatus(response.ok ? "Boundary saved to local JSON." : "Boundary save failed.");
+  };
 
   const action = useMemo(() => simulatedActions.find((item) => item.id === selectedId) ?? simulatedActions[0], [selectedId]);
   const rules = () => dontRules.split("\n").map((rule) => rule.trim()).filter(Boolean);
@@ -68,11 +96,33 @@ export default function BoundaryWorkspace() {
     }
   };
 
-  const reject = () => {
+  const reject = async () => {
+    if (!blockedAction) return;
+    const rejected = blockedAction;
     setDecisionStatus("REJECTED");
     setDecisionText("Builder rejected the blocked action. It was not performed.");
     setWorkingState("REJECTED — blocked action remains unapplied.");
     setBlockedAction(null);
+
+    const response = await fetch("/api/rejections", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        projectName,
+        agentName,
+        actionId: rejected.id,
+        processId: rejected.processId,
+        actionKind: rejected.actionKind,
+        target: rejected.target,
+        description: rejected.description,
+      }),
+    });
+    if (response.ok) {
+      const result = await response.json();
+      setLastEvidence(result.filename);
+    } else {
+      setLastEvidence("ERROR: rejection evidence could not be written.");
+    }
   };
 
   const allowOnce = () => {
@@ -106,6 +156,16 @@ export default function BoundaryWorkspace() {
         <RuleGroup title="DILAKUKEUN" subtitle="Work the agent is allowed and expected to perform." value={doRules} onChange={setDoRules} tone="allow" />
         <RuleGroup title="ULAH DILAKUKEUN" subtitle="Work the agent must not perform without explicit permission." value={dontRules} onChange={setDontRules} tone="deny" />
       </section>
+      <section className="storage-bar">
+        <div>
+          <span className="eyebrow">LOCAL PERSISTENCE</span>
+          <p>{storageStatus}</p>
+        </div>
+        <button onClick={() => void saveBoundary()}>
+          SAVE BOUNDARY
+        </button>
+      </section>
+
       <section className="guard-lab">
         <div className="lab-heading"><div><span className="eyebrow">SIMULATED AI INTENT</span><h2>Pre-execution Guard</h2></div><span className="sim-label">SIMULATOR — NOT A LIVE AI AGENT</span></div>
         <div className="action-picker">
@@ -128,8 +188,9 @@ export default function BoundaryWorkspace() {
 
         <div className="working-state"><span>SIMULATED WORKING STATE</span><p>{workingState}</p></div>
         <div className="permission-state"><span>ACTIVE PROCESS PERMISSIONS</span><strong>{permissions.processScopes.length}</strong><span> · ONE-TIME TOKENS </span><strong>{permissions.oneTimeActionIds.length}</strong></div>
+        {lastEvidence && <div className="evidence-state"><span>REJECTION EVIDENCE</span><code>{lastEvidence}</code><strong>performed = false</strong></div>}
       </section>
-      <footer><span>BOUNDARY OWNER: BUILDER</span><span>SLICE 03 · PERMISSION GATE</span></footer>
+      <footer><span>BOUNDARY OWNER: BUILDER</span><span>SLICE 04 · PERSISTENCE + EVIDENCE</span></footer>
     </main>
   );
 }
