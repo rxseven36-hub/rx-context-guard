@@ -154,8 +154,8 @@ export default function BoundaryWorkspace() {
         <label><span>AI AGENT / MODEL</span><input value={agentName} onChange={(e) => setAgentName(e.target.value)} /></label>
       </section>
       <section className="boundary-grid">
-        <RuleGroup title="DILAKUKEUN" subtitle="Work the agent is allowed and expected to perform." value={doRules} onChange={setDoRules} tone="allow" />
-        <RuleGroup title="ULAH DILAKUKEUN" subtitle="Work the agent must not perform without explicit permission." value={dontRules} onChange={setDontRules} tone="deny" />
+        <RuleGroup title="ALLOWED ACTIONS" subtitle="Work the agent is allowed and expected to perform." value={doRules} onChange={setDoRules} tone="allow" />
+        <RuleGroup title="PROTECTED ACTIONS" subtitle="Work the agent must not perform without explicit permission." value={dontRules} onChange={setDontRules} tone="deny" />
       </section>
       <section className="storage-bar">
         <div>
