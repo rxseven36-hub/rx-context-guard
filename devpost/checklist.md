@@ -61,17 +61,17 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored â€” after Slice 3, builder tests the real block and all three permission decisions
-- [ ] Final kick-the-tires exploration and feedback completed â€” after Slice 5
+- [x] Early usable behavior explored â€” after Slice 3, builder tests the real block and all three permission decisions
+- [x] Final kick-the-tires exploration and feedback completed â€” after Slice 5
 
 ## Final Review
 
-- [ ] Final review complete â€” feedback resolved and learner confirms ready to ship
+- [x] Final review complete â€” feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete â€” focused walkthrough of one proposed action from simulator through Guard, pause gate, and permission result
-- [ ] Optional edit and transfer reflection addressed â€” offered/declined/already covered/not applicable as appropriate
+- [x] Learning activity complete â€” focused walkthrough of one proposed action from simulator through Guard, pause gate, and permission result
+- [x] Optional edit and transfer reflection addressed â€” offered/declined/already covered/not applicable as appropriate
 - [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
 Activity and evidence: Focused evidence-based walkthrough of the simulator -> Guard Engine -> execution/pause -> builder permission path, grounded in finished code and passing Guard/permission verification.
@@ -81,3 +81,12 @@ Reflection: Transfer question answered; final authority remains with the builder
 Activity mode: Evidence-based recap of work already completed during build, followed by a finished-code reference map.
 
 ## Revisions
+
+### Final learner confirmation
+
+- Builder confirmed Allow Once, Allow for Process, and Reject were tested.
+- Builder confirmed the proof of concept behaves as intended.
+- Builder confirmed readiness for submission without additional changes.
+- Learning walkthrough identified the Guard Engine, UI decision flow, and rejection evidence.
+- No optional code edit was required.
+- This is a simulated proof of concept, not a live AI-agent integration.
